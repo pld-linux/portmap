@@ -6,12 +6,11 @@ Release:	16
 Group:		Daemons
 Group(pl):	Serwery
 Copyright:	BSD
-URL:		ftp://coast.cs.purdue.edu/pub/tools/unix/portmap/
-Source0:	%{name}_4.tar.gz
-Source1:	%{name}.init
-Patch0:		%{name}.patch
-BuildRoot:	/tmp/%{name}-%{version}-root
+Source0:	ftp://coast.cs.purdue.edu/pub/tools/unix/portmap/%{name}_4.tar.gz
+Source1:	portmap.init
+Patch0:		portmap.patch
 Prereq:		/sbin/chkconfig
+BuildRoot:	/tmp/%{name}-%{version}-root
 
 %description
 The portmapper manages RPC connections, which are used by protocols
@@ -34,38 +33,48 @@ make FACILITY=LOG_AUTH ZOMBIES='-DIGNORE_SIGCHLD -Dlint -w'
 
 %install
 rm -rf $RPM_BUILD_ROOT
-
 install -d $RPM_BUILD_ROOT/{usr/sbin,etc/rc.d/init.d}
 
-install -s pmap_dump $RPM_BUILD_ROOT/usr/sbin
-install -s pmap_set $RPM_BUILD_ROOT/usr/sbin
-install -s portmap $RPM_BUILD_ROOT/usr/sbin
+install -s pmap_dump pmap_set portmap $RPM_BUILD_ROOT/usr/sbin
 
 install  %{SOURCE1} $RPM_BUILD_ROOT/etc/rc.d/init.d/portmap
 
 gzip -9nf README CHANGES BLURB
 
-%clean
-rm -rf $RPM_BUILD_ROOT
-
 %post
 /sbin/chkconfig --add portmap
+if test -r /var/run/portmap.pid; then
+	/etc/rc.d/init.d/portmap stop >&2
+	/etc/rc.d/init.d/portmap start >&2
+else
+	echo "Run \"/etc/rc.d/init.d/portmap start\" to start portmap daemon."
+fi
 
 %preun
-if [ $1 = 0 ] ; then
-  /sbin/chkconfig --del portmap
+if [ "$1" = "0" ] ; then
+	/sbin/chkconfig --del portmap
+	/etc/rc.d/init.d/portmap stop >&2
 fi
+
+%clean
+rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
 %doc {README,CHANGES,BLURB}.gz
 
-%attr(750,root,root) %config /etc/rc.d/init.d/*
+%attr(754,root,root) /etc/rc.d/init.d/portmap
 %attr(755,root,root) /usr/sbin/*
 
 %changelog
-* Wed Apr 21 1999 Piotr Czerwiñski <pius@pld.org.pl>
+* Wed Apr 21 1999 Tomasz K³oczko <kloczek@rudy.mif.pg.gda.pl>
   [4.0-16]
+- modifications %post, %preun for standarizing this section; this allow stop
+  service on uninstall and automatic restart on upgrade,
+- removed %config from /etc/rc.d/init.d/portmap,
+- 754 on /etc/rc.d/init.d/portmap.
+
+* Wed Apr 21 1999 Piotr Czerwiñski <pius@pld.org.pl>
 - recompiled on rpm 3.
 
 * Tue Sep 29 1998 Marcin Korzonek <mkorz@shadow.eu.org>
