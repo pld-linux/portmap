@@ -5,8 +5,8 @@ Version:	5beta
 Release:	5
 Group:		Daemons
 Group(pl):	Serwery
-Copyright:	BSD
-Source0:	ftp://coast.cs.purdue.edu/pub/tools/unix/portmap/%{name}_5beta.tar.gz
+License:	BSD
+Source0:	ftp://coast.cs.purdue.edu/pub/tools/unix/portmap/%{name}_%{version}.tar.gz
 Source1:	portmap.init
 Source2:	pmap_dump.8
 Source3:	pmap_set.8
@@ -22,14 +22,15 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 %description
 The portmapper manages RPC connections, which are used by protocols
 such as NFS and NIS. The portmap server must be running on machines
-which act as servers for protocols which make use of the RPC mechanism.
-This portmapper supports hosts.{allow,deny} type access control.
+which act as servers for protocols which make use of the RPC
+mechanism. This portmapper supports hosts.{allow,deny} type access
+control.
 
 %description -l pl
-Portmapper zarz±dza po³±czeniami RPC, z których korzystaj± protoko³y NFS
-i NIS. Serwery tych protoko³ów potrzebuj± uruchomionego portmappera.
-Ta wersja portmappera korzysta z plików hosts.{allow,deny} do
-kontroli dostêpu.
+Portmapper zarz±dza po³±czeniami RPC, z których korzystaj± protoko³y
+NFS i NIS. Serwery tych protoko³ów potrzebuj± uruchomionego
+portmappera. Ta wersja portmappera korzysta z plików
+hosts.{allow,deny} do kontroli dostêpu.
 
 %prep 
 %setup  -q -n %{name}_5beta
@@ -43,7 +44,7 @@ make OPT="$RPM_OPT_FLAGS" \
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT{%{_sbindir},%{_mandir}/man8,/etc/{sysconfig,rc.d/init.d}}
+install -d $RPM_BUILD_ROOT{%{_sbindir},%{_mandir}/man8,%{_sysconfdir}/{sysconfig,rc.d/init.d}}
 
 install -s pmap_dump pmap_set portmap $RPM_BUILD_ROOT%{_sbindir}
 
