@@ -67,7 +67,6 @@ install %{SOURCE1} $RPM_BUILD_ROOT/etc/rc.d/init.d/portmap
 install %{SOURCE2} %{SOURCE3} %{SOURCE4} $RPM_BUILD_ROOT%{_mandir}/man8
 install %{SOURCE5} $RPM_BUILD_ROOT/etc/sysconfig/portmap
 
-gzip -9nf README CHANGES BLURB
 
 %post
 /sbin/chkconfig --add portmap
@@ -93,7 +92,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc *.gz
+%doc README CHANGES BLURB
 %attr(754,root,root) /etc/rc.d/init.d/portmap
 %attr(640,root,root) %config %verify(not size mtime md5) /etc/sysconfig/*
 %attr(755,root,root) %{_sbindir}/*
