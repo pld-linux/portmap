@@ -4,18 +4,19 @@ Name:		portmap
 Version:	5beta
 Release:	7
 Group:		Daemons
+Group(de):	Server
 Group(pl):	Serwery
 License:	BSD
 Source0:	ftp://ftp.porcupine.org/pub/security/%{name}_%{version}.tar.gz
-Source1:	portmap.init
+Source1:	%{name}.init
 Source2:	pmap_dump.8
 Source3:	pmap_set.8
-Source4:	portmap.8
-Source5:	portmap.sysconfig
-Patch0:		portmap-pld.patch
-Patch1:		portmap-libwrap_shared.patch
-Patch2:		portmap-malloc.patch
-Patch3:		portmap-cleanup.patch
+Source4:	%{name}.8
+Source5:	%{name}.sysconfig
+Patch0:		%{name}-pld.patch
+Patch1:		%{name}-libwrap_shared.patch
+Patch2:		%{name}-malloc.patch
+Patch3:		%{name}-cleanup.patch
 Prereq:		/sbin/chkconfig
 Prereq:		rc-scripts
 BuildRequires:	libwrap-devel
@@ -42,7 +43,7 @@ hosts.{allow,deny} do kontroli dostêpu.
 %patch3 -p1 
 
 %build
-%{__make} OPT="$RPM_OPT_FLAGS" \
+%{__make} OPT="%{rpmcflags}" \
 	FACILITY=LOG_AUTH \
 	ZOMBIES='-DIGNORE_SIGCHLD -Dlint -w' 
 
@@ -50,13 +51,13 @@ hosts.{allow,deny} do kontroli dostêpu.
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT{%{_sbindir},%{_mandir}/man8,%{_sysconfdir}/{sysconfig,rc.d/init.d}}
 
-install -s pmap_dump pmap_set portmap $RPM_BUILD_ROOT%{_sbindir}
+install pmap_dump pmap_set portmap $RPM_BUILD_ROOT%{_sbindir}
 
 install %{SOURCE1} $RPM_BUILD_ROOT/etc/rc.d/init.d/portmap
 install %{SOURCE2} %{SOURCE3} %{SOURCE4} $RPM_BUILD_ROOT%{_mandir}/man8
 install %{SOURCE5} $RPM_BUILD_ROOT/etc/sysconfig/portmap
 
-gzip -9nf $RPM_BUILD_ROOT%{_mandir}/man8/* README CHANGES BLURB
+gzip -9nf README CHANGES BLURB
 
 %post
 /sbin/chkconfig --add portmap
