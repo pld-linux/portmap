@@ -1,15 +1,17 @@
-Summary:     RPC port mapper
-Summary(pl): Portmapper RPC 
-Name:        portmap
-Version:     4.0
-Release:     13
-Group:       Networking/Daemons
-Copyright:   BSD
-Source0:     ftp://coast.cs.purdue.edu/pub/tools/unix/portmap/%{name}_4.tar.gz
-Source1:     %{name}.init
-Patch0:      %{name}-patch
-Prereq:      /sbin/chkconfig
-BuildRoot:   /tmp/%{name}-%{version}-root
+Summary:	RPC port mapper
+Summary(pl):	Portmapper RPC 
+Name:		portmap
+Version:	4.0
+Release:	14d
+Group:		Daemons
+Group(pl):	Serwery
+Copyright:	BSD
+URL:		ftp://coast.cs.purdue.edu/pub/tools/unix/portmap/
+Source0:	%{name}_4.tar.gz
+Source1:	%{name}.init
+Patch0:		%{name}.patch
+BuildRoot:	/tmp/%{name}-%{version}-root
+Prereq:		/sbin/chkconfig
 
 %description
 The portmapper manages RPC connections, which are used by protocols
@@ -18,26 +20,30 @@ which act as servers for protocols which make use of the RPC mechanism.
 This portmapper supports hosts.{allow,deny} type access control.
 
 %description -l pl
-Portmapper zarz±dca po³±czeniami RPC, z których korzystaj± protoko³y NFS
+Portmapper zarz±dza po³±czeniami RPC, z których korzystaj± protoko³y NFS
 i NIS. Serwery tych protoko³ów potrzebuj± uruchomionego portmappera.
 Ta wersja portmappera korzysta z plików hosts.{allow,deny} do
 kontroli dostêpu.
 
 %prep 
-%setup -q -n portmap_4
-%patch0 -p0 -b .glibc
+%setup -q -n %{name}_4
+%patch -p1 
 
 %build
-make FACILITY=LOG_AUTH ZOMBIES='-DIGNORE_SIGCHLD -Dlint' 
+make FACILITY=LOG_AUTH ZOMBIES='-DIGNORE_SIGCHLD -Dlint -w' 
 
 %install
 rm -rf $RPM_BUILD_ROOT
 
-install -d $RPM_BUILD_ROOT/usr/sbin
-install -d $RPM_BUILD_ROOT/etc/rc.d/init.d
+install -d $RPM_BUILD_ROOT/{usr/sbin,etc/rc.d/init.d}
 
-install -s pmap_dump pmap_set portmap $RPM_BUILD_ROOT/usr/sbin
-install %{SOURCE1} $RPM_BUILD_ROOT/etc/rc.d/init.d/portmap
+install -s pmap_dump $RPM_BUILD_ROOT/usr/sbin
+install -s pmap_set $RPM_BUILD_ROOT/usr/sbin
+install -s portmap $RPM_BUILD_ROOT/usr/sbin
+
+install  %{SOURCE1} $RPM_BUILD_ROOT/etc/rc.d/init.d/portmap
+
+bzip2 -9 README CHANGES BLURB
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -45,23 +51,28 @@ rm -rf $RPM_BUILD_ROOT
 %post
 /sbin/chkconfig --add portmap
 
-%postun
+%preun
 if [ $1 = 0 ] ; then
   /sbin/chkconfig --del portmap
 fi
 
 %files
-%defattr(644, root, root, 755)
-%doc README CHANGES BLURB
-%attr(700, root, root) %config /etc/rc.d/init.d/portmap
-%attr(700, root, root) /usr/sbin/*
+%defattr(644,root,root,755)
+%doc {README,CHANGES,BLURB}.bz2
+
+%attr(750,root,root) %config /etc/rc.d/init.d/*
+%attr(755,root,root) /usr/sbin/*
 
 %changelog
 * Tue Sep 29 1998 Marcin Korzonek <mkorz@shadow.eu.org>
+  [4.0-13d]
+- translations modified for pl
+- defined files permission
+- some minor changes
+
+* Sun Jun 12 1998 Wojtek ¦lusarczyk <wojtek@shadow.eu.org>
   [4.0-13]
-- added pl translation,
-- defined files permission,
-- some minor changes.
+- build against glibc-2.1.
 
 * Mon May 04 1998 Cristian Gafton <gafton@redhat.com>
 - fixed the trigger script
