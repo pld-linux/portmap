@@ -2,7 +2,7 @@
 #
 # portmap       Start/Stop RPC portmapper
 #
-# chkconfig:	345 40 65
+# chkconfig:	345 11 89
 #
 # description:	The portmapper manages RPC connections, which are used by \
 #		protocols such as NFS and NIS. The portmap server must be \
