@@ -40,22 +40,22 @@ portmappera. Ta wersja portmappera korzysta z plików
 hosts.{allow,deny} do kontroli dostêpu.
 
 %description -l pt_BR
-O portmap gerencia conexões RPC, incluindo NFS. Este mapeador de
-porta pode usar hosts.{allow,deny} para controlar o acesso.
+O portmap gerencia conexões RPC, incluindo NFS. Este mapeador de porta
+pode usar hosts.{allow,deny} para controlar o acesso.
 
-%prep 
+%prep
 %setup  -q -n %{name}_5beta
-%patch0 -p1 
-%patch1 -p1 
-%patch2 -p1 
-%patch3 -p1 
-%patch4 -p1 
-%patch5 -p1 
+%patch0 -p1
+%patch1 -p1
+%patch2 -p1
+%patch3 -p1
+%patch4 -p1
+%patch5 -p1
 
 %build
 %{__make} OPT="%{rpmcflags}" \
 	FACILITY=LOG_AUTH \
-	ZOMBIES='-DIGNORE_SIGCHLD -Dlint -w' 
+	ZOMBIES='-DIGNORE_SIGCHLD -Dlint -w'
 
 %install
 rm -rf $RPM_BUILD_ROOT
