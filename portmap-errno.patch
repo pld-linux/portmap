@@ -1,0 +1,13 @@
+--- portmap_5beta/portmap.c.wiget	Fri Mar  7 19:45:46 2003
++++ portmap_5beta/portmap.c	Fri Mar  7 19:55:30 2003
+@@ -95,8 +95,8 @@
+ #ifdef SYSV40
+ #include <netinet/in.h>
+ #endif
+-
+-extern char *strerror();
++#include <errno.h>
++#include <strings.h>
+ #include <stdlib.h>
+ 
+ #ifndef LOG_PERROR
