@@ -2,34 +2,38 @@
 #
 # portmap       Start/Stop RPC portmapper
 #
-# chkconfig: 345 40 65
-# description: The portmapper manages RPC connections, which are used by \
-#              protocols such as NFS and NIS. The portmap server must be \
-#              running on machines which act as servers for protocols which \
-#              make use of the RPC mechanism.
-# processname: portmap
+# chkconfig:	345 40 65
+#
+# description:	The portmapper manages RPC connections, which are used by \
+#		protocols such as NFS and NIS. The portmap server must be \
+#		running on machines which act as servers for protocols which \
+#		make use of the RPC mechanism.
+# processname:	portmap
 
-# Source function library.
+
+# Source function library
 . /etc/rc.d/init.d/functions
 
-# Get config.
+# Get network config
 . /etc/sysconfig/network
 
-# Check that networking is up.
-if [ "${NETWORKING}" = "no" ]; then
-	exit 0
-fi
+# Get service config
+[ -f /etc/sysconfig/portmap ] && . /etc/sysconfig/portmap
 
-[ -f /usr/sbin/portmap ] || exit 0
-# Get sysconfig ...
-if [ -f /etc/sysconfig/portmap ]; then
-    . /etc/sysconfig/portmap
-fi    
+# Check that networking is up.
+[ "${NETWORKING}" = "no" ] && echo "Error: Networking is down"; exit 0
+
+
 # See how we were called.
 case "$1" in
   start)
-	show Starting portmapper
-	daemon portmap
+	# Check if the service is already running?
+	if [ ! -f /var/lock/subsys/portmap ]; then
+		show Starting portmap
+		daemon portmap
+	else
+		echo "portmap already is running"
+	fi
 	touch /var/lock/subsys/portmap
 	;;
   stop)
