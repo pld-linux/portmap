@@ -64,18 +64,10 @@ install %{SOURCE5} $RPM_BUILD_ROOT/etc/sysconfig/portmap
 gzip -9nf README CHANGES BLURB
 
 %post
-/sbin/chkconfig --add portmap
-if [ -f /var/lock/subsys/portmap ]; then
-	/etc/rc.d/init.d/portmap restart >&2
-else
-	echo "Run \"/etc/rc.d/init.d/portmap start\" to start portmap daemon."
-fi
+DESC="portmap daemon"; %chkconfig_add
 
 %preun
-if [ "$1" = "0" ] ; then
-	/sbin/chkconfig --del portmap
-	/etc/rc.d/init.d/portmap stop >&2
-fi
+%chkconfig_del
 
 %clean
 rm -rf $RPM_BUILD_ROOT
