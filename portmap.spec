@@ -2,7 +2,7 @@ Summary:	RPC port mapper
 Summary(pl):	Portmapper RPC 
 Name:		portmap
 Version:	5beta
-Release:	5
+Release:	6
 Group:		Daemons
 Group(pl):	Serwery
 License:	BSD
@@ -14,6 +14,8 @@ Source4:	portmap.8
 Source5:	portmap.sysconfig
 Patch0:		portmap-pld.patch
 Patch1:		portmap-libwrap_shared.patch
+Patch2:		portmap-malloc.patch
+Patch3:		portmap-cleanup.patch
 Prereq:		/sbin/chkconfig
 Requires:	rc-scripts
 BuildRequires:	libwrap-devel
@@ -36,6 +38,8 @@ hosts.{allow,deny} do kontroli dostêpu.
 %setup  -q -n %{name}_5beta
 %patch0 -p1 
 %patch1 -p1 
+%patch2 -p1 
+%patch3 -p1 
 
 %build
 %{__make} OPT="$RPM_OPT_FLAGS" \
@@ -70,6 +74,9 @@ fi
 
 %clean
 rm -rf $RPM_BUILD_ROOT
+
+%triggerpostun -- portmap <= portmap-4.0-9
+/sbin/chkconfig --add portmap
 
 %files
 %defattr(644,root,root,755)
