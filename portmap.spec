@@ -2,7 +2,7 @@ Summary:	RPC port mapper
 Summary(pl):	Portmapper RPC 
 Name:		portmap
 Version:	5beta
-Release:	9
+Release:	10
 Group:		Daemons
 Group(de):	Server
 Group(pl):	Serwery
@@ -73,8 +73,10 @@ fi
 
 %preun
 if [ "$1" = "0" ] ; then
+	if [ -f /var/lock/subsys/portmap ]; then
+		/etc/rc.d/init.d/portmap stop >&2
+	fi
 	/sbin/chkconfig --del portmap
-	/etc/rc.d/init.d/portmap stop >&2
 fi
 
 %clean
