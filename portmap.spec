@@ -13,6 +13,7 @@ Source3:	pmap_set.8
 Source4:	portmap.8
 Patch0:		portmap.patch
 Prereq:		/sbin/chkconfig
+BuildPrereq:	libwrap
 BuildRoot:	/tmp/%{name}-%{version}-root
 
 %description
