@@ -15,6 +15,7 @@ Source4:	portmap.8
 Source5:	portmap.sysconfig
 Patch0:		portmap-pld.patch
 Prereq:		/sbin/chkconfig
+Requires:	rc-scripts
 BuildRequires:	libwrap
 BuildRoot:	/tmp/%{name}-%{version}-root
 
