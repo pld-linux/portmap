@@ -77,25 +77,3 @@ rm -rf $RPM_BUILD_ROOT
 %attr(640,root,root) %config %verify(not size mtime md5) /etc/sysconfig/*
 %attr(755,root,root) %{_sbindir}/*
 %{_mandir}/man8/*
-
-%changelog
-* Wed Apr 21 1999 Tomasz K³oczko <kloczek@rudy.mif.pg.gda.pl>
-  [4.0-16]
-- added pmap_dump(8), pmap_set(8), portmap(8) man pages,
-- modifications %post, %preun for standarizing this section; this allow stop
-  service on uninstall and automatic restart on upgrade,
-- removed %config from /etc/rc.d/init.d/portmap,
-- 754 on /etc/rc.d/init.d/portmap.
-
-* Wed Apr 21 1999 Piotr Czerwiñski <pius@pld.org.pl>
-- recompiled on rpm 3.
-
-* Tue Sep 29 1998 Marcin Korzonek <mkorz@shadow.eu.org>
-  [4.0-13d]
-- translations modified for pl
-- defined files permission
-- some minor changes
-
-* Sun Jun 12 1998 Wojtek ¦lusarczyk <wojtek@shadow.eu.org>
-  [4.0-13]
-- build against glibc-2.1.
