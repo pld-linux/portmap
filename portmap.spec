@@ -70,6 +70,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %attr(754,root,root) /etc/rc.d/init.d/portmap
 %attr(755,root,root) /usr/sbin/*
+/usr/man/man8/*
 
 %changelog
 * Wed Apr 21 1999 Tomasz K³oczko <kloczek@rudy.mif.pg.gda.pl>
