@@ -2,7 +2,7 @@ Summary:	RPC port mapper
 Summary(pl):	Portmapper RPC 
 Name:		portmap
 Version:	4.0
-Release:	14d
+Release:	15
 Group:		Daemons
 Group(pl):	Serwery
 Copyright:	BSD
@@ -43,7 +43,7 @@ install -s portmap $RPM_BUILD_ROOT/usr/sbin
 
 install  %{SOURCE1} $RPM_BUILD_ROOT/etc/rc.d/init.d/portmap
 
-bzip2 -9 README CHANGES BLURB
+gzip -9nf README CHANGES BLURB
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -58,7 +58,7 @@ fi
 
 %files
 %defattr(644,root,root,755)
-%doc {README,CHANGES,BLURB}.bz2
+%doc {README,CHANGES,BLURB}.gz
 
 %attr(750,root,root) %config /etc/rc.d/init.d/*
 %attr(755,root,root) /usr/sbin/*
