@@ -42,9 +42,9 @@ install -d $RPM_BUILD_ROOT/{usr/{sbin,man/man8},etc/rc.d/init.d}
 install -s pmap_dump pmap_set portmap $RPM_BUILD_ROOT/usr/sbin
 
 install %{SOURCE1} $RPM_BUILD_ROOT/etc/rc.d/init.d/portmap
-install %{SOURCE2} %{SOURCE3} %{SOURCE4} $RPM_BUILD_ROOT/usr/man/man8
+install %{SOURCE2} %{SOURCE3} %{SOURCE4} $RPM_BUILD_ROOT%{_mandir}/man8
 
-gzip -9nf $RPM_BUILD_ROOT/usr/man/man8/* \
+gzip -9nf $RPM_BUILD_ROOT%{_mandir}/man8/* \
 	README CHANGES BLURB
 
 %post
@@ -71,7 +71,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %attr(754,root,root) /etc/rc.d/init.d/portmap
 %attr(755,root,root) /usr/sbin/*
-/usr/man/man8/*
+%{_mandir}/man8/*
 
 %changelog
 * Wed Apr 21 1999 Tomasz K³oczko <kloczek@rudy.mif.pg.gda.pl>
