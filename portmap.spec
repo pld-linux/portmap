@@ -6,7 +6,7 @@ Release:	7
 Group:		Daemons
 Group(pl):	Serwery
 License:	BSD
-Source0:	ftp://coast.cs.purdue.edu/pub/tools/unix/portmap/%{name}_%{version}.tar.gz
+Source0:	ftp://ftp.porcupine.org/pub/security/%{name}_%{version}.tar.gz
 Source1:	portmap.init
 Source2:	pmap_dump.8
 Source3:	pmap_set.8
