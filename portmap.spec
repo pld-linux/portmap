@@ -17,7 +17,7 @@ Patch1:		portmap-libwrap_shared.patch
 Patch2:		portmap-malloc.patch
 Patch3:		portmap-cleanup.patch
 Prereq:		/sbin/chkconfig
-Requires:	rc-scripts
+Prereq:		rc-scripts
 BuildRequires:	libwrap-devel
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
