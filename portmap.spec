@@ -38,7 +38,7 @@ hosts.{allow,deny} do kontroli dostêpu.
 %patch1 -p1 
 
 %build
-make OPT="$RPM_OPT_FLAGS" \
+%{__make} OPT="$RPM_OPT_FLAGS" \
 	FACILITY=LOG_AUTH \
 	ZOMBIES='-DIGNORE_SIGCHLD -Dlint -w' 
 
