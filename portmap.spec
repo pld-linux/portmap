@@ -46,7 +46,7 @@ O portmap gerencia conexões RPC, incluindo NFS. Este mapeador de porta
 pode usar hosts.{allow,deny} para controlar o acesso.
 
 %prep
-%setup  -q -n %{name}_5beta
+%setup -q -n %{name}_5beta
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
