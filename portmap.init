@@ -21,26 +21,26 @@
 [ -f /etc/sysconfig/portmap ] && . /etc/sysconfig/portmap
 
 # Check that networking is up.
-if [ "${NETWORKING}" = "no" ]; then
-	echo "WARNING: Networking is down. Portmap service can't be runed."
+if is_no "${NETWORKING}"; then
+	msg_Network_Down portmap
 	exit 1
 fi
-
 
 # See how we were called.
 case "$1" in
   start)
 	# Check if the service is already running?
 	if [ ! -f /var/lock/subsys/portmap ]; then
-		show Starting portmap
+		msg_starting portmap
 		daemon portmap
 	else
-		echo "portmap already is running"
+		msg_Already_Running portmap
+		exit 1
 	fi
 	touch /var/lock/subsys/portmap
 	;;
   stop)
-	show Stopping portmap services
+	msg_stopping portmap
 	killproc portmap
 	rm -f /var/lock/subsys/portmap
 	;;
@@ -52,7 +52,7 @@ case "$1" in
 	$0 start
 	;;
   *)
-	echo "Usage: $0 {start|stop|status|restart|reload}"
+	msg_Usage "$0 {start|stop|status|restart|reload}"
 	exit 1
 esac
 
