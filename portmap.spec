@@ -2,7 +2,7 @@ Summary:	RPC port mapper
 Summary(pl):	Portmapper RPC 
 Name:		portmap
 Version:	5beta
-Release:	4
+Release:	5
 Group:		Daemons
 Group(pl):	Serwery
 Copyright:	BSD
