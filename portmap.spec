@@ -2,7 +2,7 @@ Summary:	RPC port mapper
 Summary(pl):	Portmapper RPC 
 Name:		portmap
 Version:	4.0
-Release:	15
+Release:	16
 Group:		Daemons
 Group(pl):	Serwery
 Copyright:	BSD
@@ -27,7 +27,7 @@ kontroli dostêpu.
 
 %prep 
 %setup -q -n %{name}_4
-%patch -p1 
+%patch0 -p1 
 
 %build
 make FACILITY=LOG_AUTH ZOMBIES='-DIGNORE_SIGCHLD -Dlint -w' 
@@ -64,6 +64,10 @@ fi
 %attr(755,root,root) /usr/sbin/*
 
 %changelog
+* Wed Apr 21 1999 Piotr Czerwiñski <pius@pld.org.pl>
+  [4.0-16]
+- recompiled on rpm 3.
+
 * Tue Sep 29 1998 Marcin Korzonek <mkorz@shadow.eu.org>
   [4.0-13d]
 - translations modified for pl
