@@ -2,7 +2,7 @@ Summary:	RPC port mapper
 Summary(pl):	Portmapper RPC
 Name:		portmap
 Version:	5beta
-Release:	12
+Release:	13
 Group:		Daemons
 License:	BSD
 Source0:	ftp://ftp.porcupine.org/pub/security/%{name}_%{version}.tar.gz
@@ -63,7 +63,8 @@ pode usar hosts.{allow,deny} para controlar o acesso.
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT{%{_sbindir},%{_mandir}/man8,%{_sysconfdir}/{sysconfig,rc.d/init.d}}
+install -d $RPM_BUILD_ROOT{%{_sbindir},%{_mandir}/man8}
+install -d $RPM_BUILD_ROOT{/var/lib/misc,%{_sysconfdir}/{sysconfig,rc.d/init.d}}
 
 install pmap_dump pmap_set portmap $RPM_BUILD_ROOT%{_sbindir}
 
@@ -71,6 +72,7 @@ install %{SOURCE1} $RPM_BUILD_ROOT/etc/rc.d/init.d/portmap
 install %{SOURCE2} %{SOURCE3} %{SOURCE4} $RPM_BUILD_ROOT%{_mandir}/man8
 install %{SOURCE5} $RPM_BUILD_ROOT/etc/sysconfig/portmap
 
+touch /var/lib/misc/portmap.dump
 
 %post
 /sbin/chkconfig --add portmap
@@ -101,3 +103,4 @@ rm -rf $RPM_BUILD_ROOT
 %attr(640,root,root) %config %verify(not size mtime md5) /etc/sysconfig/*
 %attr(755,root,root) %{_sbindir}/*
 %{_mandir}/man8/*
+%ghost /var/lib/misc/portmap.dump
