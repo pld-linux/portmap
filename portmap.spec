@@ -19,9 +19,9 @@ Patch3:		%{name}-cleanup.patch
 Patch4:		%{name}-rpc_user.patch
 Patch5:		%{name}-sigpipe.patch
 Patch6:		%{name}-errno.patch
-Prereq:		/sbin/chkconfig
-Prereq:		rc-scripts
 BuildRequires:	libwrap-devel
+PreReq:		rc-scripts
+Requires(post,preun):	/sbin/chkconfig
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
