@@ -57,13 +57,25 @@ case "$1" in
 	status portmap
 	exit $?
 	;;
+  dump)
+  	pmap_dump >/var/lib/misc/portmap.dump
+	exit $?
+	;;
+  restore)
+	if [ -f /var/lib/misc/portmap.dump ] ; then
+		pmap_set </var/lib/misc/portmap.dump
+		exit $?
+	fi
+	;;
   restart|force-reload)
+	$0 dump	
 	$0 stop
 	$0 start
+	$0 restore
 	exit $?
 	;;
   *)
-	msg_usage "$0 {start|stop|restart|force-reload|status}"
+	msg_usage "$0 {start|stop|restart|force-reload|dump|restore|status}"
 	exit 3
 esac
 
