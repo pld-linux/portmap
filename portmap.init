@@ -40,9 +40,13 @@ case "$1" in
 	touch /var/lock/subsys/portmap
 	;;
   stop)
-	msg_stopping portmap
-	killproc portmap
-	rm -f /var/lock/subsys/portmap
+	if [ -f /var/lock/subsys/portmap ]; then
+		msg_stopping portmap
+		killproc portmap
+		rm -f /var/lock/subsys/portmap
+	else
+		msg_Not_Running portmap
+	fi
 	;;
   status)
 	status portmap
