@@ -6,6 +6,7 @@ Release:	12
 Group:		Daemons
 License:	BSD
 Source0:	ftp://ftp.porcupine.org/pub/security/%{name}_%{version}.tar.gz
+# Source0-md5: 781e16ed4487c4caa082c6fef09ead4f
 Source1:	%{name}.init
 Source2:	pmap_dump.8
 Source3:	pmap_set.8
