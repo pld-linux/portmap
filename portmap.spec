@@ -13,9 +13,10 @@ Source3:	pmap_set.8
 Source4:	portmap.8
 Source5:	portmap.sysconfig
 Patch0:		portmap-pld.patch
+Patch1:		portmap-libwrap_shared.patch
 Prereq:		/sbin/chkconfig
 Requires:	rc-scripts
-BuildRequires:	libwrap
+BuildRequires:	libwrap-devel
 BuildRoot:	/tmp/%{name}-%{version}-root
 
 %description
@@ -31,8 +32,9 @@ Ta wersja portmappera korzysta z plików hosts.{allow,deny} do
 kontroli dostêpu.
 
 %prep 
-%setup -q -n %{name}_5beta
-%patch -p1 
+%setup  -q -n %{name}_5beta
+%patch0 -p1 
+%patch1 -p1 
 
 %build
 make OPT="$RPM_OPT_FLAGS" \
@@ -41,7 +43,7 @@ make OPT="$RPM_OPT_FLAGS" \
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT{%{_sbindir},%{_mandir}/man8},/etc/{sysconfig,rc.d/init.d}}
+install -d $RPM_BUILD_ROOT{%{_sbindir},%{_mandir}/man8,/etc/{sysconfig,rc.d/init.d}}
 
 install -s pmap_dump pmap_set portmap $RPM_BUILD_ROOT%{_sbindir}
 
