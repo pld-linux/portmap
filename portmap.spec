@@ -2,12 +2,11 @@ Summary:	RPC port mapper
 Summary(pl):	Portmapper RPC 
 Name:		portmap
 Version:	5beta
-Release:	2
+Release:	3
 Group:		Daemons
 Group(pl):	Serwery
 Copyright:	BSD
-URL:		ftp://coast.cs.purdue.edu/pub/tools/unix/portmap
-Source0:	%{name}_5beta.tar.gz
+Source0:	ftp://coast.cs.purdue.edu/pub/tools/unix/portmap/%{name}_5beta.tar.gz
 Source1:	portmap.init
 Source2:	pmap_dump.8
 Source3:	pmap_set.8
@@ -36,14 +35,13 @@ kontroli dostêpu.
 %patch -p1 
 
 %build
-make \
-    OPT="$RPM_OPT_FLAGS" \
-    FACILITY=LOG_AUTH \
-    ZOMBIES='-DIGNORE_SIGCHLD -Dlint -w' 
+make OPT="$RPM_OPT_FLAGS" \
+	FACILITY=LOG_AUTH \
+	ZOMBIES='-DIGNORE_SIGCHLD -Dlint -w' 
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT/{usr/{sbin,share/man/man8},etc/{sysconfig,rc.d/init.d}}
+install -d $RPM_BUILD_ROOT{%{_sbindir},%{_mandir}/man8},/etc/{sysconfig,rc.d/init.d}}
 
 install -s pmap_dump pmap_set portmap $RPM_BUILD_ROOT%{_sbindir}
 
@@ -74,7 +72,7 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %doc {README,CHANGES,BLURB}.gz
 
-%attr(755,root,root) /etc/rc.d/init.d/portmap
+%attr(754,root,root) /etc/rc.d/init.d/portmap
 %attr(640,root,root) %config %verify(not size mtime md5) /etc/sysconfig/*
 %attr(755,root,root) %{_sbindir}/*
 %{_mandir}/man8/*
