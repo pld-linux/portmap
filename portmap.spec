@@ -17,7 +17,7 @@ Patch1:		portmap-libwrap_shared.patch
 Prereq:		/sbin/chkconfig
 Requires:	rc-scripts
 BuildRequires:	libwrap-devel
-BuildRoot:	/tmp/%{name}-%{version}-root
+BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
 The portmapper manages RPC connections, which are used by protocols
