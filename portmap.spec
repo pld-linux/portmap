@@ -2,7 +2,7 @@ Summary:	RPC port mapper
 Summary(pl):	Portmapper RPC 
 Name:		portmap
 Version:	5beta
-Release:	7
+Release:	8
 Group:		Daemons
 Group(de):	Server
 Group(pl):	Serwery
@@ -17,6 +17,8 @@ Patch0:		%{name}-pld.patch
 Patch1:		%{name}-libwrap_shared.patch
 Patch2:		%{name}-malloc.patch
 Patch3:		%{name}-cleanup.patch
+Patch4:		%{name}-rpc_user.patch
+Patch5:		%{name}-sigpipe.patch
 Prereq:		/sbin/chkconfig
 Prereq:		rc-scripts
 BuildRequires:	libwrap-devel
@@ -41,6 +43,8 @@ hosts.{allow,deny} do kontroli dostêpu.
 %patch1 -p1 
 %patch2 -p1 
 %patch3 -p1 
+%patch4 -p1 
+%patch5 -p1 
 
 %build
 %{__make} OPT="%{rpmcflags}" \
@@ -81,8 +85,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc {README,CHANGES,BLURB}.gz
-
+%doc *.gz
 %attr(754,root,root) /etc/rc.d/init.d/portmap
 %attr(640,root,root) %config %verify(not size mtime md5) /etc/sysconfig/*
 %attr(755,root,root) %{_sbindir}/*
