@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 #
 # portmap       Start/Stop RPC portmapper
 #
@@ -21,7 +21,10 @@ if [ "${NETWORKING}" = "no" ]; then
 fi
 
 [ -f /usr/sbin/portmap ] || exit 0
-
+# Get sysconfig ...
+if [ -f /etc/sysconfig/portmap ]; then
+    . /etc/sysconfig/portmap
+fi    
 # See how we were called.
 case "$1" in
   start)

@@ -1,0 +1,4 @@
+# Set nice level for portmap
+
+# Define services nice level
+SERVICE_RUN_NICE_LEVEL="+1"
