@@ -72,7 +72,7 @@ install %{SOURCE1} $RPM_BUILD_ROOT/etc/rc.d/init.d/portmap
 install %{SOURCE2} %{SOURCE3} %{SOURCE4} $RPM_BUILD_ROOT%{_mandir}/man8
 install %{SOURCE5} $RPM_BUILD_ROOT/etc/sysconfig/portmap
 
-touch /var/lib/misc/portmap.dump
+touch $RPM_BUILD_ROOT/var/lib/misc/portmap.dump
 
 %post
 /sbin/chkconfig --add portmap
