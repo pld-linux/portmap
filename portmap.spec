@@ -2,7 +2,7 @@ Summary:	RPC port mapper
 Summary(pl):	Portmapper RPC
 Name:		portmap
 Version:	5beta
-Release:	11
+Release:	12
 Group:		Daemons
 License:	BSD
 Source0:	ftp://ftp.porcupine.org/pub/security/%{name}_%{version}.tar.gz
@@ -17,6 +17,7 @@ Patch2:		%{name}-malloc.patch
 Patch3:		%{name}-cleanup.patch
 Patch4:		%{name}-rpc_user.patch
 Patch5:		%{name}-sigpipe.patch
+Patch6:		%{name}-errno.patch
 Prereq:		/sbin/chkconfig
 Prereq:		rc-scripts
 BuildRequires:	libwrap-devel
@@ -51,10 +52,12 @@ pode usar hosts.{allow,deny} para controlar o acesso.
 %patch3 -p1
 %patch4 -p1
 %patch5 -p1
+%patch6 -p1
 
 %build
 %{__make} OPT="%{rpmcflags}" \
 	FACILITY=LOG_AUTH \
+	AUX= \
 	ZOMBIES='-DIGNORE_SIGCHLD -Dlint -w'
 
 %install
