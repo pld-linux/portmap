@@ -4,8 +4,6 @@ Name:		portmap
 Version:	5beta
 Release:	11
 Group:		Daemons
-Group(de):	Server
-Group(pl):	Serwery
 License:	BSD
 Source0:	ftp://ftp.porcupine.org/pub/security/%{name}_%{version}.tar.gz
 Source1:	%{name}.init
