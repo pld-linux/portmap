@@ -39,7 +39,7 @@ make FACILITY=LOG_AUTH ZOMBIES='-DIGNORE_SIGCHLD -Dlint -w'
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT/{usr/{sbin,man/man8},etc/rc.d/init.d}
 
-install -s pmap_dump pmap_set portmap $RPM_BUILD_ROOT/usr/sbin
+install -s pmap_dump pmap_set portmap $RPM_BUILD_ROOT%{_sbindir}
 
 install %{SOURCE1} $RPM_BUILD_ROOT/etc/rc.d/init.d/portmap
 install %{SOURCE2} %{SOURCE3} %{SOURCE4} $RPM_BUILD_ROOT%{_mandir}/man8
@@ -70,7 +70,7 @@ rm -rf $RPM_BUILD_ROOT
 %doc {README,CHANGES,BLURB}.gz
 
 %attr(754,root,root) /etc/rc.d/init.d/portmap
-%attr(755,root,root) /usr/sbin/*
+%attr(755,root,root) %{_sbindir}/*
 %{_mandir}/man8/*
 
 %changelog
