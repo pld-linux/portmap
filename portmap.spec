@@ -8,6 +8,9 @@ Group(pl):	Serwery
 Copyright:	BSD
 Source0:	ftp://coast.cs.purdue.edu/pub/tools/unix/portmap/%{name}_4.tar.gz
 Source1:	portmap.init
+Source2:	pmap_dump.8
+Source3:	pmap_set.8
+Source4:	portmap.8
 Patch0:		portmap.patch
 Prereq:		/sbin/chkconfig
 BuildRoot:	/tmp/%{name}-%{version}-root
@@ -33,13 +36,15 @@ make FACILITY=LOG_AUTH ZOMBIES='-DIGNORE_SIGCHLD -Dlint -w'
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT/{usr/sbin,etc/rc.d/init.d}
+install -d $RPM_BUILD_ROOT/{usr/{sbin,man/man8},etc/rc.d/init.d}
 
 install -s pmap_dump pmap_set portmap $RPM_BUILD_ROOT/usr/sbin
 
-install  %{SOURCE1} $RPM_BUILD_ROOT/etc/rc.d/init.d/portmap
+install %{SOURCE1} $RPM_BUILD_ROOT/etc/rc.d/init.d/portmap
+install %{SOURCE2} %{SOURCE3} %{SOURCE4} $RPM_BUILD_ROOT/usr/man/man8
 
-gzip -9nf README CHANGES BLURB
+gzip -9nf $RPM_BUILD_ROOT/usr/man/man8/* \
+	README CHANGES BLURB
 
 %post
 /sbin/chkconfig --add portmap
@@ -69,6 +74,7 @@ rm -rf $RPM_BUILD_ROOT
 %changelog
 * Wed Apr 21 1999 Tomasz K³oczko <kloczek@rudy.mif.pg.gda.pl>
   [4.0-16]
+- added pmap_dump(8), pmap_set(8), portmap(8) man pages,
 - modifications %post, %preun for standarizing this section; this allow stop
   service on uninstall and automatic restart on upgrade,
 - removed %config from /etc/rc.d/init.d/portmap,
