@@ -2,7 +2,7 @@ Summary:	RPC port mapper
 Summary(pl):	Portmapper RPC
 Name:		portmap
 Version:	5beta
-Release:	14
+Release:	14.2
 Group:		Daemons
 License:	BSD
 Source0:	ftp://ftp.porcupine.org/pub/security/%{name}_%{version}.tar.gz
@@ -20,7 +20,8 @@ Patch4:		%{name}-rpc_user.patch
 Patch5:		%{name}-sigpipe.patch
 Patch6:		%{name}-errno.patch
 BuildRequires:	libwrap-devel
-PreReq:		rc-scripts
+Requires:	rc-scripts
+Requires:	/sbin/chkconfig
 Requires(post,preun):	/sbin/chkconfig
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -46,7 +47,7 @@ O portmap gerencia conexões RPC, incluindo NFS. Este mapeador de porta
 pode usar hosts.{allow,deny} para controlar o acesso.
 
 %prep
-%setup -q -n %{name}_5beta
+%setup -q -n %{name}_%{version}
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
@@ -100,7 +101,7 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %doc README CHANGES BLURB
 %attr(754,root,root) /etc/rc.d/init.d/portmap
-%attr(640,root,root) %config %verify(not size mtime md5) /etc/sysconfig/*
+%attr(640,root,root) %config(noreplace) %verify(not md5 mtime size) /etc/sysconfig/*
 %attr(755,root,root) %{_sbindir}/*
 %{_mandir}/man8/*
 %ghost /var/lib/misc/portmap.dump
