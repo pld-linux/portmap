@@ -68,7 +68,7 @@ case "$1" in
 	fi
 	;;
   restart|reload|force-reload)
-	$0 dump	
+	$0 dump
 	$0 stop
 	$0 start
 	$0 restore
