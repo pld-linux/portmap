@@ -2,7 +2,7 @@ Summary:	RPC port mapper
 Summary(pl):	Portmapper RPC
 Name:		portmap
 Version:	5beta
-Release:	14.2
+Release:	15
 Group:		Daemons
 License:	BSD
 Source0:	ftp://ftp.porcupine.org/pub/security/%{name}_%{version}.tar.gz
@@ -20,10 +20,13 @@ Patch4:		%{name}-rpc_user.patch
 Patch5:		%{name}-sigpipe.patch
 Patch6:		%{name}-errno.patch
 BuildRequires:	libwrap-devel
+Conflicts:	libwrap < 7.6-38
 Requires:	rc-scripts
 Requires:	/sbin/chkconfig
 Requires(post,preun):	/sbin/chkconfig
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
+
+%define		_sbindir	/sbin
 
 %description
 The portmapper manages RPC connections, which are used by protocols
