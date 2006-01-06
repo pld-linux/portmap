@@ -5,9 +5,9 @@
  #endif /* LIBC_SCCS and not lint */
  
 +#include <stdlib.h>
- #include <sys/types.h>
  #include <fcntl.h>
  #include <unistd.h>
+ #include <sys/types.h>
 --- portmap_4/pmap_check.c.rpcuser	Wed Feb 28 18:42:17 2001
 +++ portmap_4/pmap_check.c	Wed Feb 28 18:50:28 2001
 @@ -40,6 +40,8 @@

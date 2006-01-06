@@ -7,7 +7,15 @@
 -
 -extern char *strerror();
 +#include <errno.h>
-+#include <strings.h>
++#include <string.h>
  #include <stdlib.h>
  
  #ifndef LOG_PERROR
+@@ -124,7 +130,6 @@
+ static void callit();
+ struct pmaplist *pmaplist;
+ int debugging = 0;
+-extern int errno;
+ 
+ #include "pmap_check.h"
+ 
