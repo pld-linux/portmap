@@ -2,7 +2,7 @@ Summary:	RPC port mapper
 Summary(pl):	Portmapper RPC
 Name:		portmap
 Version:	5beta
-Release:	15
+Release:	15.1
 Group:		Daemons
 License:	BSD
 Source0:	ftp://ftp.porcupine.org/pub/security/%{name}_%{version}.tar.gz
@@ -14,11 +14,12 @@ Source4:	%{name}.8
 Source5:	%{name}.sysconfig
 Patch0:		%{name}-pld.patch
 Patch1:		%{name}-libwrap_shared.patch
-Patch2:		%{name}-malloc.patch
-Patch3:		%{name}-cleanup.patch
-Patch4:		%{name}-rpc_user.patch
-Patch5:		%{name}-sigpipe.patch
-Patch6:		%{name}-errno.patch
+Patch2:		%{name}-errno.patch
+Patch3:		%{name}-misc.patch
+Patch4:		%{name}-access.patch
+Patch5:		%{name}-rpc_user.patch
+Patch6:		%{name}-sigpipe.patch
+Patch7:		%{name}-man.patch
 BuildRequires:	libwrap-devel
 Conflicts:	libwrap < 7.6-38
 Requires:	rc-scripts
@@ -51,6 +52,7 @@ pode usar hosts.{allow,deny} para controlar o acesso.
 
 %prep
 %setup -q -n %{name}_%{version}
+install %{SOURCE2} %{SOURCE3} %{SOURCE4} .
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
@@ -58,6 +60,7 @@ pode usar hosts.{allow,deny} para controlar o acesso.
 %patch4 -p1
 %patch5 -p1
 %patch6 -p1
+%patch7 -p1
 
 %build
 %{__make} OPT="%{rpmcflags}" \
@@ -71,9 +74,9 @@ install -d $RPM_BUILD_ROOT{%{_sbindir},%{_mandir}/man8}
 install -d $RPM_BUILD_ROOT{/var/lib/misc,%{_sysconfdir}/{sysconfig,rc.d/init.d}}
 
 install pmap_dump pmap_set portmap $RPM_BUILD_ROOT%{_sbindir}
+install pmap_dump.8 pmap_set.8 portmap.8 $RPM_BUILD_ROOT%{_mandir}/man8
 
 install %{SOURCE1} $RPM_BUILD_ROOT/etc/rc.d/init.d/portmap
-install %{SOURCE2} %{SOURCE3} %{SOURCE4} $RPM_BUILD_ROOT%{_mandir}/man8
 install %{SOURCE5} $RPM_BUILD_ROOT/etc/sysconfig/portmap
 
 touch $RPM_BUILD_ROOT/var/lib/misc/portmap.dump
