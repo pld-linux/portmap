@@ -1,0 +1,143 @@
+--- portmap_5beta/portmap.8.i	1999-05-03 13:12:24.000000000 +0200
++++ portmap_5beta/portmap.8	2006-01-06 17:54:20.004321368 +0100
+@@ -12,8 +12,8 @@
+ .\"    documentation and/or other materials provided with the distribution.
+ .\" 3. All advertising materials mentioning features or use of this software
+ .\"    must display the following acknowledgement:
+-.\"    This product includes software developed by the University of
+-.\"    California, Berkeley and its contributors.
++.\"	This product includes software developed by the University of
++.\"	California, Berkeley and its contributors.
+ .\" 4. Neither the name of the University nor the names of its contributors
+ .\"    may be used to endorse or promote products derived from this software
+ .\"    without specific prior written permission.
+@@ -46,7 +46,9 @@
+ .Sh SYNOPSIS
+ .Nm portmap
+ .Op Fl d
++.Op Fl t Ar dir
+ .Op Fl v
++.Op Fl i Ar address
+ .Sh DESCRIPTION
+ .Nm Portmap
+ is a server that converts
+@@ -88,7 +90,7 @@
+ then logs errors using
+ .Xr syslog 3 .
+ .Pp
+-Option available:
++Options available:
+ .Bl -tag -width Ds
+ .It Fl d
+ (debug) prevents
+@@ -96,10 +98,24 @@
+ from running as a daemon,
+ and causes errors and debugging information
+ to be printed to the standard error output.
++.It Fl t Ar dir
++(chroot) tell 
++.Nm portmap 
++to 
++.Xr chroot 2
++into 
++.Ar dir .
++.Ar dir 
++should be empty, not writeable by the daemon user, and preferably on a 
++filesystem mounted read-only, noexec, nodev, and nosuid.
+ .It Fl v
+ (verbose) run
+ .Nm portmap
+ in verbose mode.
++.It Fl i Ar address
++bind
++.Nm portmap
++to address. If you specify 127.0.0.1 it will bind to the loopback interface only.
+ .El
+ 
+ This
+@@ -109,9 +125,9 @@
+ library. You have to give the clients access to
+ .Nm portmap
+ if they should be allowed to use it. To allow connects from clients of
+-the .bar.com domain you could use the following line in /etc/tcpd/hosts.allow:
++the network 192.168. you could use the following line in /etc/hosts.allow:
+ 
+-portmap: .bar.com
++portmap: 192.168.
+ 
+ You have to use the daemon name 
+ .Nm portmap
+@@ -120,27 +136,32 @@
+ host or domain names).
+ 
+ For further information please have a look at the
+-.Xr tcpd (8) ,
+-.Xr hosts_allow (5)
++.Xr tcpd 8 ,
++.Xr hosts_allow 5
+ and
+-.Xr hosts_access (5)
++.Xr hosts_access 5
+ manual pages.
+ 
+ .Sh SEE ALSO
+-.Xr inetd.conf (5) ,
+-.Xr rpcinfo (8) ,
+-.Xr pmap_set (8) ,
+-.Xr pmap_dump (8) ,
+-.Xr inetd (8)
+-.Xr tcpd (8)
+-.Xr hosts_access (5)
+-.Xr hosts_options (5)
++.Xr inetd.conf 5 ,
++.Xr rpcinfo 8 ,
++.Xr pmap_set 8 ,
++.Xr pmap_dump 8 ,
++.Xr inetd 8
++.Xr tcpd 8
++.Xr hosts_access 5
++.Xr hosts_options 5
+ .Sh BUGS
+ If
+ .Nm portmap
+-crashes, all rpc servers must be restarted.
++crashes, all servers must be restarted.
+ .Sh HISTORY
+ The
+ .Nm
+ command appeared in
+-.Bx BSD 4.3.
+\ No newline at end of file
++.Bx 4.3
++.Sh AUTHORS
++This
++manual page was changed by
++.An Anibal Monsalve Salazar
++for the Debian Project.
+--- portmap_5beta/pmap_dump.8.i	2006-01-06 18:11:45.000000000 +0100
++++ portmap_5beta/pmap_dump.8	1999-04-21 18:31:37.000000000 +0200
+@@ -3,6 +3,9 @@
+ pmap_dump \- print a list of all registered RPC programs
+ .SH SYNOPSIS
+ .B pmap_dump
++.ad l
++.RB [ \-i\ \fIaddress\fB ]
++.ad b
+ .SH DESCRIPTION
+ The
+ .B pmap_dump
+@@ -21,6 +18,14 @@
+ to the
+ .B pmap_set
+ command.
++.RE
++.SH OPTIONS
++.IP \fB\-i\ address\fP
++connect to
++.B portmap
++listening on specified address.
++.El
++
+ .SH SEE ALSO
+ .BR pmap_set (8),
+ .BR portmap (8)
