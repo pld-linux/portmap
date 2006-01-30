@@ -9,7 +9,7 @@
  
  /* grow_addrs - extend list of local interface addresses */
  
-@@ -114,6 +116,17 @@
+@@ -114,6 +116,16 @@
       * presence of non-IP interfaces.
       */
  
@@ -18,8 +18,7 @@
 +     * */
 +    if (have_bindaddr && addrs == 0) {
 +	if (num_local >= num_addrs)
-+	    if (grow_addrs() == 0)
-+		break;
++	    grow_addrs();
 +	if (num_local < num_addrs)
 +	    addrs[num_local++] = &bindaddr;
 +    }
