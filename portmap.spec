@@ -2,7 +2,7 @@ Summary:	RPC port mapper
 Summary(pl):	Portmapper RPC
 Name:		portmap
 Version:	5beta
-Release:	16
+Release:	17
 Group:		Daemons
 License:	BSD
 Source0:	ftp://ftp.porcupine.org/pub/security/%{name}_%{version}.tar.gz
@@ -66,7 +66,7 @@ install %{SOURCE2} %{SOURCE3} %{SOURCE4} .
 %{__make} OPT="%{rpmcflags}" \
 	FACILITY=LOG_AUTH \
 	AUX= \
-	ZOMBIES='-DIGNORE_SIGCHLD -Dlint -w'
+	ZOMBIES=-DIGNORE_SIGCHLD
 
 %install
 rm -rf $RPM_BUILD_ROOT
