@@ -20,7 +20,7 @@
 +	if (num_local >= num_addrs)
 +	    grow_addrs();
 +	if (num_local < num_addrs)
-+	    addrs[num_local++] = &bindaddr;
++	    addrs[num_local++] = bindaddr;
 +    }
 +
      if ((sock = socket(PF_INET, SOCK_DGRAM, 0)) < 0) {
