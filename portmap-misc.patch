@@ -473,13 +473,14 @@ diff -Nru portmap_5beta/portmap.c portmap_5beta.new/portmap.c
  
  /* grow_addrs - extend list of local interface addresses */
  
-@@ -114,6 +116,16 @@
+@@ -114,6 +116,17 @@
       * presence of non-IP interfaces.
       */
  
 +    /* if we have bindaddr it must be local, add it unconditionally
 +     * in case of ioctl problems
-+     * */
++     */
++    num_local = 0;
 +    if (have_bindaddr && addrs == 0) {
 +	if (num_local >= num_addrs)
 +	    grow_addrs();
@@ -490,3 +491,25 @@ diff -Nru portmap_5beta/portmap.c portmap_5beta.new/portmap.c
      if ((sock = socket(PF_INET, SOCK_DGRAM, 0)) < 0) {
  	perror("socket");
  	return (0);
+@@ -128,19 +129,18 @@
+ 
+     if ((sock = socket(PF_INET, SOCK_DGRAM, 0)) < 0) {
+ 	perror("socket");
+-	return (0);
++	return (num_local);
+     }
+     ifc.ifc_len = sizeof(buf);
+     ifc.ifc_buf = buf;
+     if (ioctl(sock, SIOCGIFCONF, (char *) &ifc) < 0) {
+ 	perror("SIOCGIFCONF");
+ 	(void) close(sock);
+-	return (0);
++	return (num_local);
+     }
+     /* Get IP address of each active IP network interface. */
+ 
+     the_end = (struct ifreq *) (ifc.ifc_buf + ifc.ifc_len);
+-    num_local = 0;
+     for (ifr = ifc.ifc_req; ifr < the_end; ifr++) {
+ 	if (ifr->ifr_addr.sa_family == AF_INET) {	/* IP net interface */
+ 	    ifreq = *ifr;
