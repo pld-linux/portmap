@@ -5,7 +5,7 @@
  static int num_addrs;
  static struct in_addr *addrs;
 +extern struct in_addr bindaddr;
-+extern int have_bindaddr = 0;
++extern int have_bindaddr;
  
  /* grow_addrs - extend list of local interface addresses */
  
