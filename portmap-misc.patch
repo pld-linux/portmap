@@ -350,6 +350,15 @@ diff -Nru portmap_5beta/portmap.c portmap_5beta.new/portmap.c
  }
  
  #ifndef lint
+@@ -324,7 +324,7 @@
+ /* need to override perror calls in rpc library */
+ void
+ perror(what)
+-	const char *what;
++	__const char *what;
+ {
+ 
+ 	syslog(LOG_ERR, "%s: %m", what);
 @@ -350,7 +353,7 @@
  		 */
  		/* remote host authorization check */
