@@ -19,7 +19,7 @@
  #include <sys/signal.h>
  #ifdef SYSV40
  #include <netinet/in.h>
-@@ -149,11 +151,49 @@
+@@ -149,11 +151,47 @@
      /*
       * Give up root privileges so that we can never allocate a privileged
       * port when forwarding an rpc request.
@@ -27,8 +27,6 @@
 +     * Fix 8/3/00 Philipp Knirsch: First lookup our rpc user. If we find it,
 +     * switch to that uid, otherwise simply resue the old bin user and print
 +     * out a warning in syslog.
-+     * PLD: use nobody; special user is not required (doesn't need any
-+     * additional privileges)
       */
 -    if (setuid(1) == -1) {
 -	syslog(LOG_ERR, "setuid(1) failed: %m");
@@ -36,9 +34,9 @@
 +
 +    struct passwd *pwent;
 +
-+    pwent = getpwnam("nobody");
++    pwent = getpwnam("rpc");
 +    if (pwent == NULL) {
-+        syslog(LOG_WARNING, "user nobody not found, reverting to user bin");
++        syslog(LOG_WARNING, "user rpc not found, reverting to user bin");
 +        if (setgid(1) == -1) {
 +            syslog(LOG_ERR, "setgid(1) failed: %m");
 +            exit(1);
@@ -54,14 +52,14 @@
 +        }
 +
 +        if (setgid(pwent->pw_gid) == -1) {
-+            syslog(LOG_WARNING, "setgid() to nobody group failed: %m");
++            syslog(LOG_WARNING, "setgid() to rpc group failed: %m");
 +            if (setgid(1) == -1) {
 +                syslog(LOG_ERR, "setgid(1) failed: %m");
 +                exit(1);
 +            }
 +        }
 +        if (setuid(pwent->pw_uid) == -1) {
-+            syslog(LOG_WARNING, "setuid() to nobody user failed: %m");
++            syslog(LOG_WARNING, "setuid() to rpc user failed: %m");
 +            if (setuid(1) == -1) {
 +                syslog(LOG_ERR, "setuid(1) failed: %m");
 +                exit(1);
