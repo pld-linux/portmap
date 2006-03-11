@@ -2,7 +2,7 @@ Summary:	RPC port mapper
 Summary(pl):	Portmapper RPC
 Name:		portmap
 Version:	5beta
-Release:	17
+Release:	18
 Group:		Daemons
 License:	BSD
 Source0:	ftp://ftp.porcupine.org/pub/security/%{name}_%{version}.tar.gz
@@ -21,10 +21,11 @@ Patch5:		%{name}-rpc_user.patch
 Patch6:		%{name}-sigpipe.patch
 Patch7:		%{name}-man.patch
 BuildRequires:	libwrap-devel
-Conflicts:	libwrap < 7.6-38
+Requires(post,preun):	/sbin/chkconfig
 Requires:	rc-scripts
 Requires:	/sbin/chkconfig
-Requires(post,preun):	/sbin/chkconfig
+Provides:	user(rpc)
+Conflicts:	libwrap < 7.6-38
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		_sbindir	/sbin
@@ -63,7 +64,9 @@ install %{SOURCE2} %{SOURCE3} %{SOURCE4} .
 %patch7 -p1
 
 %build
-%{__make} OPT="%{rpmcflags}" \
+%{__make} \
+	CC="%{__cc}" \
+	OPT="%{rpmcflags}" \
 	FACILITY=LOG_AUTH \
 	AUX= \
 	ZOMBIES=-DIGNORE_SIGCHLD
@@ -71,7 +74,7 @@ install %{SOURCE2} %{SOURCE3} %{SOURCE4} .
 %install
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT{%{_sbindir},%{_mandir}/man8}
-install -d $RPM_BUILD_ROOT{/var/lib/misc,%{_sysconfdir}/{sysconfig,rc.d/init.d}}
+install -d $RPM_BUILD_ROOT{/var/lib/misc,/etc/{sysconfig,rc.d/init.d}}
 
 install pmap_dump pmap_set portmap $RPM_BUILD_ROOT%{_sbindir}
 install pmap_dump.8 pmap_set.8 portmap.8 $RPM_BUILD_ROOT%{_mandir}/man8
@@ -80,6 +83,12 @@ install %{SOURCE1} $RPM_BUILD_ROOT/etc/rc.d/init.d/portmap
 install %{SOURCE5} $RPM_BUILD_ROOT/etc/sysconfig/portmap
 
 touch $RPM_BUILD_ROOT/var/lib/misc/portmap.dump
+
+%clean
+rm -rf $RPM_BUILD_ROOT
+
+%pre
+%useradd -u 22 -d /usr/share/empty -s /bin/false -c "Portmapper RPC User" -g nobody rpc
 
 %post
 /sbin/chkconfig --add portmap
@@ -97,8 +106,10 @@ if [ "$1" = "0" ] ; then
 	/sbin/chkconfig --del portmap
 fi
 
-%clean
-rm -rf $RPM_BUILD_ROOT
+%postun
+if [ "$1" = "0" ]; then
+	%userremove rpc
+fi
 
 %triggerpostun -- portmap <= portmap-4.0-9
 /sbin/chkconfig --add portmap
