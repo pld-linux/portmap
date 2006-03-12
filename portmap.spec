@@ -3,8 +3,8 @@ Summary(pl):	Portmapper RPC
 Name:		portmap
 Version:	5beta
 Release:	18
-Group:		Daemons
 License:	BSD
+Group:		Daemons
 Source0:	ftp://ftp.porcupine.org/pub/security/%{name}_%{version}.tar.gz
 # Source0-md5:	781e16ed4487c4caa082c6fef09ead4f
 Source1:	%{name}.init
@@ -21,9 +21,10 @@ Patch5:		%{name}-rpc_user.patch
 Patch6:		%{name}-sigpipe.patch
 Patch7:		%{name}-man.patch
 BuildRequires:	libwrap-devel
+BuildRequires:	rpmbuild(macros) >= 1.268
 Requires(post,preun):	/sbin/chkconfig
-Requires:	rc-scripts
 Requires:	/sbin/chkconfig
+Requires:	rc-scripts
 Provides:	user(rpc)
 Conflicts:	libwrap < 7.6-38
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -92,17 +93,11 @@ rm -rf $RPM_BUILD_ROOT
 
 %post
 /sbin/chkconfig --add portmap
-if [ -f /var/lock/subsys/portmap ]; then
-	/etc/rc.d/init.d/portmap restart >&2
-else
-	echo "Run \"/etc/rc.d/init.d/portmap start\" to start portmap daemon."
-fi
+%service portmap restart "portmap daemon"
 
 %preun
 if [ "$1" = "0" ] ; then
-	if [ -f /var/lock/subsys/portmap ]; then
-		/etc/rc.d/init.d/portmap stop >&2
-	fi
+	%service portmap stop
 	/sbin/chkconfig --del portmap
 fi
 
