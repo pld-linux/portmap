@@ -24,9 +24,9 @@ BuildRequires:	libwrap-devel
 BuildRequires:	rpmbuild(macros) >= 1.268
 Requires(post,preun):	/sbin/chkconfig
 Requires:	/sbin/chkconfig
+Requires:	libwrap >= 7.6-38
 Requires:	rc-scripts
 Provides:	user(rpc)
-Conflicts:	libwrap < 7.6-38
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		_sbindir	/sbin
@@ -113,7 +113,7 @@ fi
 %defattr(644,root,root,755)
 %doc README CHANGES BLURB
 %attr(754,root,root) /etc/rc.d/init.d/portmap
-%attr(640,root,root) %config(noreplace) %verify(not md5 mtime size) /etc/sysconfig/*
+%attr(640,root,root) %config(noreplace) %verify(not md5 mtime size) /etc/sysconfig/portmap
 %attr(755,root,root) %{_sbindir}/*
 %{_mandir}/man8/*
 %ghost /var/lib/misc/portmap.dump
