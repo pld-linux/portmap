@@ -2,7 +2,7 @@ Summary:	RPC port mapper
 Summary(pl):	Portmapper RPC
 Name:		portmap
 Version:	5beta
-Release:	18
+Release:	19
 License:	BSD
 Group:		Daemons
 Source0:	ftp://ftp.porcupine.org/pub/security/%{name}_%{version}.tar.gz
