@@ -1,8 +1,0 @@
-# Set nice level for portmap
-SERVICE_RUN_NICE_LEVEL="+1"
-
-# chroot into this directory
-# PORTMAP_CHROOT=/usr/share/empty
-
-# set IP address to listen on (only one)
-# PORTMAP_IP="10.0.0.1"
