@@ -1,5 +1,5 @@
 Summary:	RPC port mapper
-Summary(pl):	Portmapper RPC
+Summary(pl.UTF-8):   Portmapper RPC
 Name:		portmap
 Version:	5beta
 Release:	20
@@ -38,18 +38,18 @@ which act as servers for protocols which make use of the RPC
 mechanism. This portmapper supports hosts.{allow,deny} type access
 control.
 
-%description -l es
+%description -l es.UTF-8
 portmap administra conexiones RPC, que incluye NFS. Este mapeador de
 puerto puede usar hosts.{allow,deny} para controlar el acceso.
 
-%description -l pl
-Portmapper zarz±dza po³±czeniami RPC, z których korzystaj± protoko³y
-NFS i NIS. Serwery tych protoko³ów potrzebuj± uruchomionego
-portmappera. Ta wersja portmappera korzysta z plików
-hosts.{allow,deny} do kontroli dostêpu.
+%description -l pl.UTF-8
+Portmapper zarzÄ…dza poÅ‚Ä…czeniami RPC, z ktÃ³rych korzystajÄ… protokoÅ‚y
+NFS i NIS. Serwery tych protokoÅ‚Ã³w potrzebujÄ… uruchomionego
+portmappera. Ta wersja portmappera korzysta z plikÃ³w
+hosts.{allow,deny} do kontroli dostÄ™pu.
 
-%description -l pt_BR
-O portmap gerencia conexões RPC, incluindo NFS. Este mapeador de porta
+%description -l pt_BR.UTF-8
+O portmap gerencia conexÃµes RPC, incluindo NFS. Este mapeador de porta
 pode usar hosts.{allow,deny} para controlar o acesso.
 
 %prep
