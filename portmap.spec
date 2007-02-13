@@ -1,5 +1,5 @@
 Summary:	RPC port mapper
-Summary(pl.UTF-8):   Portmapper RPC
+Summary(pl.UTF-8):	Portmapper RPC
 Name:		portmap
 Version:	5beta
 Release:	20
