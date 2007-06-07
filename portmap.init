@@ -37,7 +37,7 @@ start() {
 		[ -z "${PORTMAP_CHROOT}" ] || PORTMAP_OPTIONS="-t ${PORTMAP_CHROOT}"
 		[ -z "${PORTMAP_IP}" ] || PORTMAP_OPTIONS="${PORTMAP_OPTIONS} -i ${PORTMAP_IP}"
 		msg_starting portmap
-		daemon portmap ${PORTMAP_OPTIONS}
+		daemon portmap -u 22 -g 99 ${PORTMAP_OPTIONS}
 		RETVAL=$?
 		[ $RETVAL -eq 0 ] && touch /var/lock/subsys/portmap
 	else
