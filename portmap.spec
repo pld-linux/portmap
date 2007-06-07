@@ -2,7 +2,7 @@ Summary:	RPC port mapper
 Summary(pl.UTF-8):	Portmapper RPC
 Name:		portmap
 Version:	6.0
-Release:	0.1
+Release:	0.2
 License:	BSD
 Group:		Daemons
 Source0:	http://neil.brown.name/portmap/%{name}-%{version}.tgz
@@ -12,14 +12,9 @@ Source2:	pmap_dump.8
 Source3:	pmap_set.8
 Source4:	%{name}.8
 Source5:	%{name}.sysconfig
-Patch0:		%{name}-pld.patch
-Patch1:		%{name}-libwrap_shared.patch
-Patch2:		%{name}-errno.patch
-Patch3:		%{name}-misc.patch
-Patch4:		%{name}-access.patch
-Patch5:		%{name}-rpc_user.patch
-Patch6:		%{name}-sigpipe.patch
-Patch7:		%{name}-man.patch
+Patch0:		%{name}-misc.patch
+Patch1:		%{name}-sigpipe.patch
+Patch2:		%{name}-man.patch
 BuildRequires:	libwrap-devel
 BuildRequires:	rpmbuild(macros) >= 1.268
 Requires(post,preun):	/sbin/chkconfig
@@ -55,22 +50,17 @@ pode usar hosts.{allow,deny} para controlar o acesso.
 %prep
 %setup -q -n %{name}_%{version}
 install %{SOURCE2} %{SOURCE3} %{SOURCE4} .
-%patch0 -p1
-%patch1 -p1
+# CHECK 
+#%patch0 -p1
+# CHECK
+#%patch1 -p1
 %patch2 -p1
-%patch3 -p1
-%patch4 -p1
-%patch5 -p1
-%patch6 -p1
-%patch7 -p1
 
 %build
 %{__make} \
-	CC="%{__cc}" \
-	OPT="%{rpmcflags}" \
-	FACILITY=LOG_AUTH \
-	AUX= \
-	ZOMBIES=-DIGNORE_SIGCHLD
+	CC="%{__cc} -fPIC" \
+	CFLAGS="%{rpmcflags}" \
+	FACILITY=LOG_AUTH
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -111,7 +101,7 @@ fi
 
 %files
 %defattr(644,root,root,755)
-%doc README CHANGES BLURB
+%doc BLURB* CHANGES README*
 %attr(754,root,root) /etc/rc.d/init.d/portmap
 %attr(640,root,root) %config(noreplace) %verify(not md5 mtime size) /etc/sysconfig/portmap
 %attr(755,root,root) %{_sbindir}/*
