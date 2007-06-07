@@ -13,7 +13,7 @@ Source3:	pmap_set.8
 Source4:	%{name}.8
 Source5:	%{name}.sysconfig
 Patch0:		%{name}-misc.patch
-Patch1:		%{name}-sigpipe.patch
+Patch1:		%{name}-access.patch
 Patch2:		%{name}-man.patch
 BuildRequires:	libwrap-devel
 BuildRequires:	rpmbuild(macros) >= 1.268
