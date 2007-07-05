@@ -1,0 +1,21 @@
+--- portmap_6.0/Makefile~	2007-05-11 05:02:10.000000000 +0200
++++ portmap_6.0/Makefile	2007-07-05 16:01:44.000000000 +0200
+@@ -136,12 +136,12 @@
+ 	sed $(MAN_SED) < portmap.8 > portmap.man
+ 
+ install: all
+-	install -o root -g root -m 0755 -s portmap ${BASEDIR}/sbin
+-	install -o root -g root -m 0755 -s pmap_dump ${BASEDIR}/sbin
+-	install -o root -g root -m 0755 -s pmap_set ${BASEDIR}/sbin
+-	install -o root -g root -m 0644 portmap.man ${BASEDIR}/usr/share/man/man8/portmap.8
+-	install -o root -g root -m 0644 pmap_dump.8 ${BASEDIR}/usr/share/man/man8
+-	install -o root -g root -m 0644 pmap_set.8 ${BASEDIR}/usr/share/man/man8
++	install portmap ${BASEDIR}/sbin
++	install pmap_dump ${BASEDIR}/sbin
++	install pmap_set ${BASEDIR}/sbin
++	install portmap.man ${BASEDIR}/usr/share/man/man8/portmap.8
++	install pmap_dump.8 ${BASEDIR}/usr/share/man/man8
++	install pmap_set.8 ${BASEDIR}/usr/share/man/man8
+ 
+ clean:
+ 	rm -f *.o portmap pmap_dump pmap_set from_local \
