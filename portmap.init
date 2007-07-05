@@ -56,9 +56,7 @@ stop() {
 }
 
 dump() {
-	PORTMAP_OPTIONS=
-	[ -z "${PORTMAP_IP}" ] || PORTMAP_OPTIONS="-i ${PORTMAP_IP}"
-  	pmap_dump ${PORTMAP_OPTIONS} >/var/lib/misc/portmap.dump
+  	pmap_dump >/var/lib/misc/portmap.dump
 	RETVAL=$?
 }
 
