@@ -2,19 +2,14 @@ Summary:	RPC port mapper
 Summary(pl.UTF-8):	Portmapper RPC
 Name:		portmap
 Version:	6.0
-Release:	0.2
+Release:	1
 License:	BSD
 Group:		Daemons
 Source0:	http://neil.brown.name/portmap/%{name}-%{version}.tgz
 # Source0-md5:	ac108ab68bf0f34477f8317791aaf1ff
 Source1:	%{name}.init
-Source2:	pmap_dump.8
-Source3:	pmap_set.8
-Source4:	%{name}.8
-Source5:	%{name}.sysconfig
-Patch0:		%{name}-misc.patch
-Patch1:		%{name}-access.patch
-Patch2:		%{name}-man.patch
+Source2:	%{name}.sysconfig
+Patch0:		%{name}-install.patch
 BuildRequires:	libwrap-devel
 BuildRequires:	rpmbuild(macros) >= 1.268
 Requires(post,preun):	/sbin/chkconfig
@@ -49,12 +44,7 @@ pode usar hosts.{allow,deny} para controlar o acesso.
 
 %prep
 %setup -q -n %{name}_%{version}
-install %{SOURCE2} %{SOURCE3} %{SOURCE4} .
-# CHECK 
-#%patch0 -p1
-# CHECK
-#%patch1 -p1
-%patch2 -p1
+%patch0 -p1
 
 %build
 %{__make} \
@@ -67,11 +57,11 @@ rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT{%{_sbindir},%{_mandir}/man8}
 install -d $RPM_BUILD_ROOT{/var/lib/misc,/etc/{sysconfig,rc.d/init.d}}
 
-install pmap_dump pmap_set portmap $RPM_BUILD_ROOT%{_sbindir}
-install pmap_dump.8 pmap_set.8 portmap.8 $RPM_BUILD_ROOT%{_mandir}/man8
+%{__make} install \
+	BASEDIR=$RPM_BUILD_ROOT
 
 install %{SOURCE1} $RPM_BUILD_ROOT/etc/rc.d/init.d/portmap
-install %{SOURCE5} $RPM_BUILD_ROOT/etc/sysconfig/portmap
+install %{SOURCE2} $RPM_BUILD_ROOT/etc/sysconfig/portmap
 
 touch $RPM_BUILD_ROOT/var/lib/misc/portmap.dump
 
