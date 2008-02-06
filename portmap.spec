@@ -2,7 +2,7 @@ Summary:	RPC port mapper
 Summary(pl):	Portmapper RPC
 Name:		portmap
 Version:	5beta
-Release:	20
+Release:	21
 License:	BSD
 Group:		Daemons
 Source0:	ftp://ftp.porcupine.org/pub/security/%{name}_%{version}.tar.gz
@@ -105,9 +105,6 @@ fi
 if [ "$1" = "0" ]; then
 	%userremove rpc
 fi
-
-%triggerpostun -- portmap <= portmap-4.0-9
-/sbin/chkconfig --add portmap
 
 %files
 %defattr(644,root,root,755)
