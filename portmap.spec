@@ -2,7 +2,7 @@ Summary:	RPC port mapper
 Summary(pl.UTF-8):	Portmapper RPC
 Name:		portmap
 Version:	6.0
-Release:	1
+Release:	2
 License:	BSD
 Group:		Daemons
 Source0:	http://neil.brown.name/portmap/%{name}-%{version}.tgz
@@ -85,9 +85,6 @@ fi
 if [ "$1" = "0" ]; then
 	%userremove rpc
 fi
-
-%triggerpostun -- portmap <= portmap-4.0-9
-/sbin/chkconfig --add portmap
 
 %files
 %defattr(644,root,root,755)
