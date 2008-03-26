@@ -30,24 +30,22 @@ else
 	exit 0
 fi
 
-RETVAL=0
-# See how we were called.
-case "$1" in
-  start)
+start() {
 	# Check if the service is already running?
 	if [ ! -f /var/lock/subsys/portmap ]; then
 		PORTMAP_OPTIONS=
 		[ -z "${PORTMAP_CHROOT}" ] || PORTMAP_OPTIONS="-t ${PORTMAP_CHROOT}"
 		[ -z "${PORTMAP_IP}" ] || PORTMAP_OPTIONS="${PORTMAP_OPTIONS} -i ${PORTMAP_IP}"
 		msg_starting portmap
-		daemon portmap ${PORTMAP_OPTIONS}
+		daemon portmap -u 22 -g 99 ${PORTMAP_OPTIONS}
 		RETVAL=$?
 		[ $RETVAL -eq 0 ] && touch /var/lock/subsys/portmap
 	else
 		msg_already_running portmap
 	fi
-	;;
-  stop)
+}
+
+stop() {
 	if [ -f /var/lock/subsys/portmap ]; then
 		msg_stopping portmap
 		killproc portmap
@@ -55,32 +53,51 @@ case "$1" in
 	else
 		msg_not_running portmap
 	fi
+}
+
+dump() {
+  	pmap_dump >/var/lib/misc/portmap.dump
+	RETVAL=$?
+}
+
+restore() {
+	if [ -f /var/lib/misc/portmap.dump ] ; then
+		pmap_set </var/lib/misc/portmap.dump
+		RETVAL=$?
+	fi
+}
+
+RETVAL=0
+# See how we were called.
+case "$1" in
+  start)
+  	start
+	;;
+  stop)
+  	stop
+	;;
+  dump)
+  	dump
+	;;
+  restore)
+  	restore
+	;;
+  cleanup)
+	stop
+	start
+	;;
+  restart|force-reload)
+	dump
+	stop
+	start
+	restore
 	;;
   status)
 	status portmap
 	exit $?
 	;;
-  dump)
-	PORTMAP_OPTIONS=
-	[ -z "${PORTMAP_IP}" ] || PORTMAP_OPTIONS="-i ${PORTMAP_IP}"
-  	pmap_dump ${PORTMAP_OPTIONS} >/var/lib/misc/portmap.dump
-	exit $?
-	;;
-  restore)
-	if [ -f /var/lib/misc/portmap.dump ] ; then
-		pmap_set </var/lib/misc/portmap.dump
-		exit $?
-	fi
-	;;
-  restart|reload|force-reload)
-	$0 dump
-	$0 stop
-	$0 start
-	$0 restore
-	exit $?
-	;;
   *)
-	msg_usage "$0 {start|stop|restart|reload|force-reload|dump|restore|status}"
+	msg_usage "$0 {start|stop|restart|force-reload|dump|restore|cleanup|status}"
 	exit 3
 esac
 
